@@ -5,6 +5,8 @@
 *
 *                    Copyright 2009-2020 Silicon Laboratories Inc. www.silabs.com
 *
+*                    Copyright 2020 Oleg Nykytenko, oleg.nykytenko@gmail.com
+*
 *                                 SPDX-License-Identifier: APACHE-2.0
 *
 *               This software is subject to an open source license and is distributed by
@@ -17,9 +19,9 @@
 /*
 *********************************************************************************************************
 *
-*                                               MIPS32 4K
+*                                               PIC32MM
 *
-*                                                 MPLAB
+*                                                XC32
 *
 * File    : os_cpu_c.c
 * Version : V3.08.00
@@ -27,7 +29,7 @@
 */
 
 #define   OS_CPU_GLOBALS
-#include "../../../../Source/os.h"
+#include "os.h"
 
 
 #ifdef __cplusplus
