@@ -475,9 +475,9 @@ CoreTimerIntHandler:
     sw    $29, 0($11)
 
 TICK_INC_NESTING:
-
-    addi  $9,  $9, 1                           /* Increment OSIntNesting                               */
-    sb    $9,  0($8)
+    la    $8,  OSIntEnter		       /* Call OSIntEnter() for ENTER ISR OS Notification      */
+    jalr  $8
+    nop
 
     mfc0  $8, $12, 0                           /* Update the Status register's IPL bits                */
     mfc0  $9, $13, 0
