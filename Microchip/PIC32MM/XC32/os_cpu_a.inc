@@ -184,6 +184,49 @@
 .endm
 
 
+    
+.macro OS_CPU_ISR_TEMPLATE      isr_name, isr_handler
+    
+    .ent \isr_name
+\isr_name:
+    OS_CPU_REGS_SAVE
+    
+    la    $8,  OSIntNestingCtr                 /* See if OSIntNesting == 0                             */
+    lbu   $9,  0($8)
+    bne   $0,  $9, 1f
+    nop
+
+    la    $10, OSTCBCurPtr                     /* Save the current task's stack pointer                */
+    lw    $11, 0($10)
+    sw    $29, 0($11)
+
+1:
+    la    $8,  OSIntEnter                      /* Call OSIntEnter() for ENTER ISR OS Notification      */
+    jalr  $8
+    nop
+
+    mfc0  $8, $12, 0                           /* Update the Status register's IPL bits                */
+    mfc0  $9, $13, 0
+    andi  $9, $9,  0xFC00
+    ins   $8, $0,  10, 6
+    or    $8, $8,  $9
+    mtc0  $8, $12, 0
+    ehb
+
+    la    $8,  \isr_handler                    /* Call Handler to handle the interrupt   */
+    jalr  $8
+    nop
+
+    la    $8,  OSIntExit                       /* Call OSIntExit()                                     */
+    jalr  $8
+    nop
+    
+    OS_CPU_REGS_RESTORE
+    
+    eret
+    .end \isr_name
+.endm
+            
 #endif /* __LANGUAGE_ASSEMBLY__ */
 
 #endif	/* OS_CPU_A_H */
