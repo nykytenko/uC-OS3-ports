@@ -377,6 +377,30 @@ void  OSTaskReturnHook (OS_TCB  *p_tcb)
 #endif
 }
 
+/*
+************************************************************************************************************************
+*                                                   TASK STACK REDZONE HOOK
+*
+* Description: This function is called if a task have stack overflow.
+*
+* Arguments  : p_tcb   is a pointer to the task control block of the task that is returning.
+*
+* Note(s)    : none
+************************************************************************************************************************
+*/
+
+void  OSRedzoneHitHook (OS_TCB  *p_tcb)
+{
+#if OS_CFG_APP_HOOKS_EN > 0u
+    if (OS_AppRedzoneHitHookPtr != (OS_APP_HOOK_TCB)0) {
+        (*OS_AppRedzoneHitHookPtr)(p_tcb);
+    }
+#else
+    (void)p_tcb;
+#endif
+}
+
+
 
 #ifdef __cplusplus
 }
