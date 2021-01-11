@@ -199,13 +199,6 @@
     la    $10, OSTCBCurPtr                     /* Save the current task's stack pointer                */
     lw    $11, 0($10)
     sw    $29, 0($11)
-    
-    la    $8,  OSTCBHighRdyPtr                 /* Update the current TCB                               */
-    lw    $9,  0($8)
-    la    $10, OSTCBCurPtr
-    sw    $9,  0($10)
-
-    lw    $29, 0($9)                           /* Load the new task's stack pointer                    */
 
 1:
     la    $8,  OSIntEnter                      /* Call OSIntEnter() for ENTER ISR OS Notification      */
