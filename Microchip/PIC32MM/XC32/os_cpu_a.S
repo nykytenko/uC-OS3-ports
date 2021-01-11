@@ -47,7 +47,7 @@
     .global  OSIntCtxSw
     .global  OSCtxSw
     .global  CoreTimerIntHandler
-    .global  _general_exception_handler
+    .global  _general_exception_context
 
 
 /*
@@ -352,8 +352,8 @@ TICK_INC_NESTING:
 *
 *********************************************************************************************************
 */    
-    .ent _general_exception_handler
-_general_exception_handler:
+    .ent _general_exception_context
+_general_exception_context:
     OS_CPU_REGS_SAVE	EXCEPTION_CAUSE
 
     ori   $8,  $0,  0x007C                     /* Switch context only if a syscall exception occurred  */
@@ -379,4 +379,4 @@ RESTORE_CTX:
     OS_CPU_REGS_RESTORE
 
     eret                                       /* Resume execution in new task			       */
-    .end _general_exception_handler
+    .end _general_exception_context
